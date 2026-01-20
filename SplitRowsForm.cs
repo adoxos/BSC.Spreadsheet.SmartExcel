@@ -182,7 +182,10 @@ namespace SmartExcel
 
         private string GetSelectedDelimiter()
         {
-            string selected = delimiterComboBox.SelectedItem.ToString();
+            string selected = delimiterComboBox.SelectedItem?.ToString();
+            if (string.IsNullOrEmpty(selected))
+                return ",";
+                
             switch (selected)
             {
                 case "Comma (,)":

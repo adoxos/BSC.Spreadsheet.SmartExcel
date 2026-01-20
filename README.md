@@ -43,11 +43,14 @@ Once installed, you'll see a new "SmartExcel" tab in the Excel ribbon with two b
 Requirements:
 - .NET Framework 4.7.2 or later
 - Visual Studio 2019 or later (or .NET SDK with MSBuild)
+- Windows OS (for packing functionality)
 
 Build command:
 ```bash
 dotnet build SmartExcel.csproj -c Release
 ```
+
+**Note on Packing:** The project has `RunExcelDnaPack` set to `false` by default for cross-platform builds. On Windows, you can set it to `true` in the .csproj file to enable automatic packing of the XLL with embedded resources. The unpacked XLL files work perfectly for installation.
 
 ### Technical Details
 
