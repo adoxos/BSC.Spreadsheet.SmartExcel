@@ -11,7 +11,7 @@ SmartExcel is an Excel add-in that provides powerful tools for manipulating deli
 If you have the source code:
 1. Open a command prompt in the project directory
 2. Run: `dotnet build SmartExcel.csproj -c Release`
-3. The XLL files will be created in `bin/Release/net472/`
+3. The XLL files will be created in `bin/Release/net8.0-windows/`
 
 ### Step 2: Install in Excel
 
@@ -160,7 +160,7 @@ apple; orange; banana
 ## System Requirements
 
 - Microsoft Excel 2010 or later (Windows)
-- .NET Framework 4.7.2 or later
+- .NET 8 Runtime or later
 - Windows operating system
 
 ## Support and Feedback
@@ -170,5 +170,5 @@ For issues, questions, or feature requests, please contact the repository mainta
 ## Version Information
 
 - **Version**: 1.0.0
-- **Built with**: Excel-DNA 1.6.0
-- **Target Framework**: .NET Framework 4.7.2
+- **Built with**: Excel-DNA 1.8.0
+- **Target Framework**: .NET 8 (net8.0-windows)

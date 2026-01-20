@@ -26,9 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MIT License
 - Build configuration for both 32-bit and 64-bit Excel
 
+### Changed
+- Updated to .NET 8 (net8.0-windows) from .NET Framework 4.7.2
+- Updated Excel-DNA to version 1.8.0
+
 ### Technical Details
-- Built with Excel-DNA 1.6.0
-- Target Framework: .NET Framework 4.7.2
+- Built with Excel-DNA 1.8.0
+- Target Framework: .NET 8 (net8.0-windows)
 - Uses Microsoft Office Interop for Excel automation
 - COM-visible ribbon controller
 - Optimized for performance with screen updating and calculation control
