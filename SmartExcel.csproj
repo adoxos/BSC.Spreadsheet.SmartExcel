@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>SmartExcel</AssemblyName>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <!-- Disable packing for cross-platform builds. On Windows, set to 'true' to create packed XLL -->
+    <RunExcelDnaPack>false</RunExcelDnaPack>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDna.AddIn" Version="1.8.0" />
+    <PackageReference Include="ExcelDna.Integration" Version="1.8.0" />
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SmartExcel.dna">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="install-x64.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="uninstall-x64.bat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="END_USER_INSTALLATION_GUIDE.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Copy XLL and DNA files to publish folder after publish -->
+  <Target Name="CopyXllFilesToPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <XllFilesToCopy Include="$(OutputPath)*.xll" />
+      <DnaFilesToCopy Include="$(OutputPath)*64.dna" />
+    </ItemGroup>
+    <Copy SourceFiles="@(XllFilesToCopy)" DestinationFolder="$(PublishDir)" />
+    <Copy SourceFiles="@(DnaFilesToCopy)" DestinationFolder="$(PublishDir)" />
+    <Message Text="Copied XLL and DNA files to publish folder" Importance="high" />
+  </Target>
+
+</Project>
