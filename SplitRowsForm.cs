@@ -127,12 +127,15 @@ namespace SmartExcel
                 var usedRange = activeSheet.UsedRange;
                 
                 // Check if the worksheet has meaningful data (not just a single empty cell)
-                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1 && 
-                    (usedRange.Value2 == null || string.IsNullOrWhiteSpace(usedRange.Value2.ToString())))
+                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1)
                 {
-                    MessageBox.Show("No data found in the active sheet.", "Information", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    var value = usedRange.Value2;
+                    if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
+                    {
+                        MessageBox.Show("No data found in the active sheet.", "Information", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
                 }
 
                 for (int i = 1; i <= usedRange.Columns.Count; i++)

@@ -25,6 +25,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - USER_GUIDE.md with detailed examples and troubleshooting
 - MIT License
 - Build configuration for both 32-bit and 64-bit Excel
+- **Installation scripts**:
+  - `install-x64.bat` - Automated installation script for 64-bit Excel
+  - `uninstall-x64.bat` - Uninstallation script
+  - Scripts copy files to `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
 
 ### Changed
 - Updated to .NET 8 (net8.0-windows) from .NET Framework 4.7.2

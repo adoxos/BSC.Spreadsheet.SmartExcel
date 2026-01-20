@@ -6,28 +6,65 @@ SmartExcel is an Excel add-in that provides powerful tools for manipulating deli
 
 ## Installation Instructions
 
-### Step 1: Build the Add-in (if not already built)
+### Automated Installation (Recommended)
 
-If you have the source code:
-1. Open a command prompt in the project directory
-2. Run: `dotnet build SmartExcel.csproj -c Release`
-3. The XLL files will be created in `bin/Release/net8.0-windows/`
+The easiest way to install the SmartExcel add-in is using the provided installation script:
 
-### Step 2: Install in Excel
+1. Build the project (if not already built):
+   - Open a command prompt in the project directory
+   - Run: `dotnet build SmartExcel.csproj -c Release`
 
-1. Open Microsoft Excel
-2. Go to **File → Options → Add-ins**
-3. At the bottom of the dialog, select **"Excel Add-ins"** from the "Manage:" dropdown
-4. Click **"Go..."**
-5. Click **"Browse..."**
-6. Navigate to the build output folder:
-   - For 64-bit Excel: Select `SmartExcel64.xll`
-   - For 32-bit Excel: Select `SmartExcel.xll`
-7. Click **OK**
-8. Ensure the SmartExcel checkbox is checked
-9. Click **OK** to close the dialog
+2. Run the installation script:
+   - Double-click `install-x64.bat` (for 64-bit Excel)
+   - The script will automatically:
+     - Create the target directory: `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
+     - Copy all necessary files
+     - Display installation instructions
 
-### Step 3: Verify Installation
+3. Enable in Excel:
+   - Open Microsoft Excel
+   - Go to **File → Options → Add-ins**
+   - At the bottom, select **"Excel Add-ins"** from the "Manage:" dropdown
+   - Click **"Go..."**
+   - Click **"Browse..."**
+   - Navigate to: `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
+   - Select `SmartExcel64.xll`
+   - Click **OK**
+   - Ensure the SmartExcel checkbox is checked
+   - Click **OK** to close the dialog
+
+### Manual Installation
+
+If you prefer manual installation:
+
+1. Build the project (if not already built):
+   - Open a command prompt in the project directory
+   - Run: `dotnet build SmartExcel.csproj -c Release`
+   - The XLL files will be created in `bin/Release/net8.0-windows/`
+
+2. Copy files to add-ins folder:
+   - Create directory: `%LOCALAPPDATA%\Statkraft AS\Add-ins\` (if it doesn't exist)
+   - Copy the following files from `bin/Release/net8.0-windows/`:
+     - `SmartExcel64.xll` (for 64-bit Excel)
+     - `SmartExcel.dll`
+     - `SmartExcel64.dna`
+     - `SmartExcel.deps.json`
+     - `SmartExcel.runtimeconfig.json`
+
+3. Enable in Excel (same steps as automated installation above)
+
+### Uninstallation
+
+To remove the SmartExcel add-in:
+
+1. Run `uninstall-x64.bat`
+2. Follow the on-screen prompts
+3. In Excel, disable the add-in:
+   - Go to **File → Options → Add-ins**
+   - Select **"Excel Add-ins"** and click **"Go..."**
+   - Uncheck **SmartExcel** and click **OK**
+
+### Verify Installation
 
 - You should now see a **"SmartExcel"** tab in your Excel ribbon
 - The tab contains a **"Data Tools"** group with two buttons

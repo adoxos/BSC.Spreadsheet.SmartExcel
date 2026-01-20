@@ -23,13 +23,37 @@ Replace delimiters in a column with a different delimiter.
 
 ### Installation
 
-1. Build the project using Visual Studio or MSBuild
-2. Navigate to `bin/Debug/net8.0-windows/` (or `bin/Release/net8.0-windows/`)
-3. Copy `SmartExcel64.xll` (for 64-bit Excel) or `SmartExcel.xll` (for 32-bit Excel)
-4. In Excel, go to File → Options → Add-ins
-5. Click "Go..." next to "Manage: Excel Add-ins"
-6. Click "Browse..." and select the XLL file
-7. Check the box next to SmartExcel and click OK
+#### Option 1: Automated Installation (Recommended)
+
+1. Build and publish the project:
+   ```bash
+   dotnet publish SmartExcel.csproj -c Release -o ./publish
+   ```
+
+2. Run the installation script from the publish folder:
+   - Double-click `install-x64.bat` (for 64-bit Excel)
+   - The script will automatically copy files to `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
+   - Follow the on-screen instructions to enable the add-in in Excel
+
+#### Option 2: Manual Installation
+
+1. Build and publish the project (see above)
+2. Manually copy files from the `publish` folder to your preferred location
+3. In Excel, go to File → Options → Add-ins
+4. Click "Go..." next to "Manage: Excel Add-ins"
+5. Click "Browse..." and select `SmartExcel64.xll` (for 64-bit Excel)
+6. Check the box next to SmartExcel and click OK
+
+#### For Distribution
+
+After running `dotnet publish`:
+1. Zip the entire `publish` folder
+2. Share the zip file with users
+3. Users extract the zip and run `install-x64.bat`
+
+#### Uninstallation
+
+Run `uninstall-x64.bat` from the publish folder to remove the add-in files from your system.
 
 ### Usage
 
@@ -45,10 +69,19 @@ Requirements:
 - Visual Studio 2022 or later (or .NET SDK with MSBuild)
 - Windows OS (for packing functionality)
 
-Build command:
+Build and publish command:
 ```bash
-dotnet build SmartExcel.csproj -c Release
+dotnet publish SmartExcel.csproj -c Release -o ./publish
 ```
+
+This will create a `publish` folder containing:
+- `SmartExcel64.xll` - 64-bit Excel add-in
+- `SmartExcel.xll` - 32-bit Excel add-in  
+- `install-x64.bat` - Installation script
+- `uninstall-x64.bat` - Uninstallation script
+- All required dependencies
+
+**For distribution**: Zip the entire `publish` folder and share with users. Users can extract the zip and run `install-x64.bat` to install.
 
 **Note on Packing:** The project has `RunExcelDnaPack` set to `false` by default for cross-platform builds. On Windows, you can set it to `true` in the .csproj file to enable automatic packing of the XLL with embedded resources. The unpacked XLL files work perfectly for installation.
 
