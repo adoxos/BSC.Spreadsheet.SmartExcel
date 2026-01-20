@@ -12,12 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom "SmartExcel" ribbon tab in Excel
 - **Split Rows** function:
   - Split delimiter-separated strings into multiple rows
-  - Support for Comma, Semicolon, Pipe, Tab, and Custom delimiters
+  - Support for Comma, Semicolon, Pipe, Tab, Line break, and Custom delimiters
   - Automatic duplication of other column data to new rows
   - Column selection interface
 - **Change Delimiter** function:
   - Replace delimiters in a column with different delimiters
-  - Support for Comma, Semicolon, Pipe, Tab, and Custom delimiters
+  - Support for Comma, Semicolon, Pipe, Tab, Line break, and Custom delimiters
   - From/To delimiter selection
   - Column selection interface
 - Windows Forms dialogs for user interaction

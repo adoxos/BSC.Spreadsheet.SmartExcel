@@ -63,7 +63,7 @@ namespace SmartExcel
                 Size = new System.Drawing.Size(230, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            fromDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Custom" });
+            fromDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Line break", "Custom" });
             fromDelimiterComboBox.SelectedIndex = 0;
             fromDelimiterComboBox.SelectedIndexChanged += FromDelimiterComboBox_SelectedIndexChanged;
 
@@ -89,7 +89,7 @@ namespace SmartExcel
                 Size = new System.Drawing.Size(230, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            toDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Custom" });
+            toDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Line break", "Custom" });
             toDelimiterComboBox.SelectedIndex = 1;
             toDelimiterComboBox.SelectedIndexChanged += ToDelimiterComboBox_SelectedIndexChanged;
 
@@ -259,6 +259,8 @@ namespace SmartExcel
                     return "|";
                 case "Tab":
                     return "\t";
+                case "Line break":
+                    return "\n";
                 case "Custom":
                     return textBox.Text;
                 default:

@@ -10,7 +10,7 @@ An Excel-DNA add-in that provides powerful data manipulation tools through a cus
 #### 1. Split Rows Function
 Split delimiter-separated strings into new rows while preserving other cell data.
 - Select the column containing delimited data
-- Choose delimiter type: Comma, Semicolon, Pipe, Tab, or Custom
+- Choose delimiter type: Comma, Semicolon, Pipe, Tab, Line break, or Custom
 - Automatically creates new rows with split values
 - Copies all other cell values to the newly created rows
 
@@ -19,7 +19,7 @@ Replace delimiters in a column with a different delimiter.
 - Select the column to process
 - Choose source delimiter (From)
 - Choose target delimiter (To)
-- Supports: Comma, Semicolon, Pipe, Tab, or Custom delimiters
+- Supports: Comma, Semicolon, Pipe, Tab, Line break, or Custom delimiters
 
 ### Installation
 

@@ -62,7 +62,7 @@ namespace SmartExcel
                 Size = new System.Drawing.Size(230, 25),
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
-            delimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Custom" });
+            delimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Line break", "Custom" });
             delimiterComboBox.SelectedIndex = 0;
             delimiterComboBox.SelectedIndexChanged += DelimiterComboBox_SelectedIndexChanged;
 
@@ -196,6 +196,8 @@ namespace SmartExcel
                     return "|";
                 case "Tab":
                     return "\t";
+                case "Line break":
+                    return "\n";
                 case "Custom":
                     return customDelimiterTextBox.Text;
                 default:

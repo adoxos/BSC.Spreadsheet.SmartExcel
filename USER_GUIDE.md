@@ -68,6 +68,7 @@ Jane Doe     | Gaming
      - Semicolon (;)
      - Pipe (|)
      - Tab
+     - Line break
      - Custom (enter your own delimiter)
 6. Click **"Execute"**
 7. The operation will:
@@ -115,6 +116,7 @@ apple; orange; banana
      - Semicolon (;)
      - Pipe (|)
      - Tab
+     - Line break
      - Custom (enter your own delimiter)
 6. Click **"Execute"**
 7. All instances of the "from" delimiter in the selected column will be replaced with the "to" delimiter
