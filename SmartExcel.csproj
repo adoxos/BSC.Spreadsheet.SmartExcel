@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <LangVersion>latest</LangVersion>
     <AssemblyName>SmartExcel</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <!-- Disable packing for cross-platform builds. On Windows, set to 'true' to create packed XLL -->
     <RunExcelDnaPack>false</RunExcelDnaPack>
   </PropertyGroup>
@@ -14,7 +13,10 @@
   <ItemGroup>
     <PackageReference Include="ExcelDna.AddIn" Version="1.8.0" />
     <PackageReference Include="ExcelDna.Integration" Version="1.8.0" />
-    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SmartExcel
 {
     public partial class SplitRowsForm : Form
     {
-        private readonly Excel.Application excelApp;
+        private readonly dynamic excelApp;
         private System.Windows.Forms.ComboBox columnComboBox;
         private System.Windows.Forms.ComboBox delimiterComboBox;
         private System.Windows.Forms.TextBox customDelimiterTextBox;
@@ -17,7 +14,7 @@ namespace SmartExcel
         private System.Windows.Forms.Label columnLabel;
         private System.Windows.Forms.Label delimiterLabel;
 
-        public SplitRowsForm(Excel.Application app)
+        public SplitRowsForm(dynamic app)
         {
             this.excelApp = app;
             InitializeComponent();
@@ -104,7 +101,8 @@ namespace SmartExcel
 
         private void DelimiterComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            customDelimiterTextBox.Visible = delimiterComboBox.SelectedItem.ToString() == "Custom";
+            bool showCustom = string.Equals(delimiterComboBox.SelectedItem?.ToString(), "Custom", StringComparison.Ordinal);
+            customDelimiterTextBox.Visible = showCustom;
             if (customDelimiterTextBox.Visible)
             {
                 this.Size = new System.Drawing.Size(400, 250);
@@ -123,7 +121,7 @@ namespace SmartExcel
         {
             try
             {
-                var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+                dynamic activeSheet = excelApp.ActiveSheet;
                 var usedRange = activeSheet.UsedRange;
                 
                 // Check if the worksheet has meaningful data (not just a single empty cell)
@@ -218,11 +216,11 @@ namespace SmartExcel
 
         private void SplitRows(int columnIndex, string delimiter)
         {
-            var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+            dynamic activeSheet = excelApp.ActiveSheet;
             var usedRange = activeSheet.UsedRange;
-            
+
             excelApp.ScreenUpdating = false;
-            excelApp.Calculation = Excel.XlCalculation.xlCalculationManual;
+            excelApp.Calculation = ExcelComConstants.CalculationManual;
 
             try
             {
@@ -245,21 +243,21 @@ namespace SmartExcel
                             if (parts.Length > 1)
                             {
                                 // Update the first row with the first part
-                                Excel.Range cellToUpdate = (Excel.Range)activeSheet.Cells[i, columnIndex];
+                                dynamic cellToUpdate = activeSheet.Cells[i, columnIndex];
                                 cellToUpdate.Value2 = parts[0];
                                 System.Runtime.InteropServices.Marshal.ReleaseComObject(cellToUpdate);
 
                                 // Insert new rows for remaining parts
                                 for (int j = 1; j < parts.Length; j++)
                                 {
-                                    Excel.Range rowToInsert = (Excel.Range)activeSheet.Rows[i + j];
-                                    rowToInsert.Insert(Excel.XlInsertShiftDirection.xlShiftDown, Excel.XlInsertFormatOrigin.xlFormatFromLeftOrAbove);
+                                    dynamic rowToInsert = activeSheet.Rows[i + j];
+                                    rowToInsert.Insert(ExcelComConstants.ShiftDown, ExcelComConstants.FormatFromLeftOrAbove);
                                     System.Runtime.InteropServices.Marshal.ReleaseComObject(rowToInsert);
                                     
                                     // Copy entire row data
                                     for (int k = 1; k <= colCount; k++)
                                     {
-                                        Excel.Range targetCell = (Excel.Range)activeSheet.Cells[i + j, k];
+                                        dynamic targetCell = activeSheet.Cells[i + j, k];
                                         targetCell.Value2 = (k == columnIndex) ? (object)parts[j] : data[i, k];
                                         System.Runtime.InteropServices.Marshal.ReleaseComObject(targetCell);
                                     }
@@ -271,7 +269,7 @@ namespace SmartExcel
             }
             finally
             {
-                excelApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
+                excelApp.Calculation = ExcelComConstants.CalculationAutomatic;
                 excelApp.ScreenUpdating = true;
             }
         }

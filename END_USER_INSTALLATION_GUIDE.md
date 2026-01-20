@@ -53,9 +53,7 @@ Copy these files from the extracted folder to your installation location:
 - `SmartExcel64.xll` (main add-in file)
 - `SmartExcel.dll`
 - `SmartExcel64.dna`
-- `SmartExcel.deps.json`
-- `SmartExcel.runtimeconfig.json`
-- `Microsoft.Office.Interop.Excel.dll`
+- `SmartExcel.xll` and `SmartExcel.dna` (optional, only if 32-bit Excel support is needed)
 
 ### Step 3: Enable in Excel
 Follow **Step 3** from the Quick Start Installation above.
@@ -122,10 +120,9 @@ Once installed, you'll have access to two powerful tools:
 
 ### The add-in crashes or doesn't work
 **Solution:**
-1. Make sure you have **.NET 8 Runtime** installed on your computer
-   - Download from: https://dotnet.microsoft.com/download/dotnet/8.0
-   - Install the "Desktop Runtime" version
-2. Restart Excel after installing .NET 8
+1. Make sure you have **.NET Framework 4.8** installed (Windows 10 1903 and later include it by default)
+   - If needed, download the offline installer from: https://dotnet.microsoft.com/download/dotnet-framework/net48
+2. Restart Excel after installing .NET Framework 4.8
 3. Try uninstalling and reinstalling the add-in
 
 ---
@@ -151,7 +148,7 @@ Once installed, you'll have access to two powerful tools:
 
 - **Operating System:** Windows 10 or later
 - **Excel Version:** Microsoft Excel 2010 or later (64-bit version required)
-- **.NET Runtime:** .NET 8 Runtime or later
+- **.NET Runtime:** .NET Framework 4.8 (pre-installed on modern Windows 10/11)
 - **Permissions:** Ability to install software in your local AppData folder
 
 ---

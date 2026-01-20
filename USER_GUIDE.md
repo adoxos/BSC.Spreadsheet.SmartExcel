@@ -40,16 +40,15 @@ If you prefer manual installation:
 1. Build the project (if not already built):
    - Open a command prompt in the project directory
    - Run: `dotnet build SmartExcel.csproj -c Release`
-   - The XLL files will be created in `bin/Release/net8.0-windows/`
+   - The XLL files will be created in `bin/Release/net48/`
 
 2. Copy files to add-ins folder:
-   - Create directory: `%LOCALAPPDATA%\Statkraft AS\Add-ins\` (if it doesn't exist)
-   - Copy the following files from `bin/Release/net8.0-windows/`:
-     - `SmartExcel64.xll` (for 64-bit Excel)
-     - `SmartExcel.dll`
-     - `SmartExcel64.dna`
-     - `SmartExcel.deps.json`
-     - `SmartExcel.runtimeconfig.json`
+    - Create directory: `%LOCALAPPDATA%\Statkraft AS\Add-ins\` (if it doesn't exist)
+    - Copy the following files from `bin/Release/net48/`:
+       - `SmartExcel64.xll` (for 64-bit Excel)
+       - `SmartExcel.dll`
+       - `SmartExcel64.dna`
+       - `SmartExcel.xll` and `SmartExcel.dna` (optional, only if you also need a 32-bit build)
 
 3. Enable in Excel (same steps as automated installation above)
 
@@ -199,7 +198,7 @@ apple; orange; banana
 ## System Requirements
 
 - Microsoft Excel 2010 or later (Windows)
-- .NET 8 Runtime or later
+- .NET Framework 4.8
 - Windows operating system
 
 ## Support and Feedback
@@ -210,4 +209,4 @@ For issues, questions, or feature requests, please contact the repository mainta
 
 - **Version**: 1.0.0
 - **Built with**: Excel-DNA 1.8.0
-- **Target Framework**: .NET 8 (net8.0-windows)
+- **Target Framework**: .NET Framework 4.8 (net48)

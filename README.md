@@ -72,8 +72,8 @@ Once installed, you'll see a new "SmartExcel" tab in the Excel ribbon with two b
 ### Building from Source
 
 Requirements:
-- .NET 8 SDK or later
-- Visual Studio 2022 or later (or .NET SDK with MSBuild)
+- .NET SDK 8.0 or later with the .NET Framework 4.8 targeting pack installed (included with the .NET Framework 4.8 Developer Pack)
+- Visual Studio 2022 or later with the ".NET desktop development" workload (or MSBuild plus the targeting pack)
 - Windows OS (for packing functionality)
 
 Build and publish command:
@@ -95,7 +95,7 @@ This will create a `publish` folder containing:
 ### Technical Details
 
 - Built with Excel-DNA 1.8.0
-- Target Framework: .NET 8 (net8.0-windows)
-- Uses Office Interop for Excel automation
+- Target Framework: .NET Framework 4.8 (net48)
+- Uses Excel-DNA's runtime COM automation (no Microsoft.Office.Interop dependency required)
 - Windows Forms for user interface dialogs
 

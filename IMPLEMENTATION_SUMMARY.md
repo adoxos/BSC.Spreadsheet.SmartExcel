@@ -117,7 +117,7 @@ While not part of the current scope, potential future enhancements could include
 
 - Windows OS
 - Microsoft Excel 2010 or later
-- .NET 8 Runtime or later
+- .NET Framework 4.8
 
 ## Development Environment
 

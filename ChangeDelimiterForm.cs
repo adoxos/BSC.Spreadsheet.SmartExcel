@@ -1,12 +1,11 @@
 using System;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SmartExcel
 {
     public partial class ChangeDelimiterForm : Form
     {
-        private readonly Excel.Application excelApp;
+        private readonly dynamic excelApp;
         private System.Windows.Forms.ComboBox columnComboBox;
         private System.Windows.Forms.ComboBox fromDelimiterComboBox;
         private System.Windows.Forms.ComboBox toDelimiterComboBox;
@@ -18,7 +17,7 @@ namespace SmartExcel
         private System.Windows.Forms.Label fromDelimiterLabel;
         private System.Windows.Forms.Label toDelimiterLabel;
 
-        public ChangeDelimiterForm(Excel.Application app)
+        public ChangeDelimiterForm(dynamic app)
         {
             this.excelApp = app;
             InitializeComponent();
@@ -180,7 +179,7 @@ namespace SmartExcel
         {
             try
             {
-                var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+                dynamic activeSheet = excelApp.ActiveSheet;
                 var usedRange = activeSheet.UsedRange;
                 
                 // Check if the worksheet has meaningful data (not just a single empty cell)
@@ -288,11 +287,11 @@ namespace SmartExcel
 
         private void ChangeDelimiter(int columnIndex, string fromDelimiter, string toDelimiter)
         {
-            var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
+            dynamic activeSheet = excelApp.ActiveSheet;
             var usedRange = activeSheet.UsedRange;
-            
+
             excelApp.ScreenUpdating = false;
-            excelApp.Calculation = Excel.XlCalculation.xlCalculationManual;
+            excelApp.Calculation = ExcelComConstants.CalculationManual;
 
             try
             {
@@ -308,7 +307,7 @@ namespace SmartExcel
                         if (cellText.Contains(fromDelimiter))
                         {
                             string newValue = cellText.Replace(fromDelimiter, toDelimiter);
-                            Excel.Range cell = (Excel.Range)activeSheet.Cells[i, columnIndex];
+                            dynamic cell = activeSheet.Cells[i, columnIndex];
                             cell.Value2 = newValue;
                             System.Runtime.InteropServices.Marshal.ReleaseComObject(cell);
                         }
@@ -317,7 +316,7 @@ namespace SmartExcel
             }
             finally
             {
-                excelApp.Calculation = Excel.XlCalculation.xlCalculationAutomatic;
+                excelApp.Calculation = ExcelComConstants.CalculationAutomatic;
                 excelApp.ScreenUpdating = true;
             }
         }

@@ -1,8 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Drawing;
 using ExcelDna.Integration;
 using ExcelDna.Integration.CustomUI;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SmartExcel
 {
@@ -20,7 +20,7 @@ namespace SmartExcel
         {
             try
             {
-                var excelApp = (Excel.Application)ExcelDnaUtil.Application;
+                dynamic excelApp = ExcelDnaUtil.Application;
                 var splitForm = new SplitRowsForm(excelApp);
                 splitForm.ShowDialog();
             }
@@ -35,7 +35,7 @@ namespace SmartExcel
         {
             try
             {
-                var excelApp = (Excel.Application)ExcelDnaUtil.Application;
+                dynamic excelApp = ExcelDnaUtil.Application;
                 var changeDelimiterForm = new ChangeDelimiterForm(excelApp);
                 changeDelimiterForm.ShowDialog();
             }
@@ -44,6 +44,36 @@ namespace SmartExcel
                 System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "Change Delimiter Error", 
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
+        }
+
+        public void OnTrimColumnButton(IRibbonControl control)
+        {
+            try
+            {
+                dynamic excelApp = ExcelDnaUtil.Application;
+                var trimForm = new TrimColumnForm(excelApp);
+                trimForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "LTRIM / RTRIM Error", 
+                    System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+            }
+        }
+
+        public Bitmap GetSplitRowsImage(IRibbonControl control)
+        {
+            return IconFactory.SplitRowsIcon;
+        }
+
+        public Bitmap GetChangeDelimiterImage(IRibbonControl control)
+        {
+            return IconFactory.ChangeDelimiterIcon;
+        }
+
+        public Bitmap GetTrimColumnImage(IRibbonControl control)
+        {
+            return IconFactory.TrimColumnIcon;
         }
     }
 }

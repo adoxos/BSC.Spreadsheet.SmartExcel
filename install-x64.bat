@@ -77,11 +77,6 @@ if errorlevel 1 (
 echo - Copied SmartExcel64.dna
 
 REM Copy dependencies if they exist
-if exist "%SOURCE_DIR%Microsoft.Office.Interop.Excel.dll" (
-    copy /Y "%SOURCE_DIR%Microsoft.Office.Interop.Excel.dll" "%TARGET_DIR%\"
-    echo - Copied Microsoft.Office.Interop.Excel.dll
-)
-
 if exist "%SOURCE_DIR%SmartExcel.deps.json" (
     copy /Y "%SOURCE_DIR%SmartExcel.deps.json" "%TARGET_DIR%\"
     echo - Copied SmartExcel.deps.json

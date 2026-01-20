@@ -48,11 +48,6 @@ if exist "%TARGET_DIR%\SmartExcel64.dna" (
     echo - Removed SmartExcel64.dna
 )
 
-if exist "%TARGET_DIR%\Microsoft.Office.Interop.Excel.dll" (
-    del /F /Q "%TARGET_DIR%\Microsoft.Office.Interop.Excel.dll"
-    echo - Removed Microsoft.Office.Interop.Excel.dll
-)
-
 if exist "%TARGET_DIR%\SmartExcel.deps.json" (
     del /F /Q "%TARGET_DIR%\SmartExcel.deps.json"
     echo - Removed SmartExcel.deps.json
