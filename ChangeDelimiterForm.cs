@@ -192,7 +192,7 @@ namespace SmartExcel
 
                 for (int i = 1; i <= usedRange.Columns.Count; i++)
                 {
-                    string columnLetter = GetColumnLetter(i);
+                    string columnLetter = ExcelHelpers.GetColumnLetter(i);
                     columnComboBox.Items.Add($"Column {columnLetter}");
                 }
 
@@ -204,21 +204,6 @@ namespace SmartExcel
                 MessageBox.Show($"Error loading columns: {ex.Message}", "Error", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private string GetColumnLetter(int columnNumber)
-        {
-            int dividend = columnNumber;
-            string columnName = String.Empty;
-
-            while (dividend > 0)
-            {
-                int modulo = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modulo) + columnName;
-                dividend = (dividend - modulo) / 26;
-            }
-
-            return columnName;
         }
 
         private void ExecuteButton_Click(object sender, EventArgs e)
