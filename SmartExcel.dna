@@ -3,7 +3,7 @@
   <ExternalLibrary Path="SmartExcel.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" />
   
   <CustomUI>
-    <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" loadImage="LoadImage">
+    <customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
       <ribbon>
         <tabs>
           <tab id="SmartExcelTab" label="SmartExcel">

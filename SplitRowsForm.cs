@@ -8,7 +8,7 @@ namespace SmartExcel
 {
     public partial class SplitRowsForm : Form
     {
-        private Excel.Application excelApp;
+        private readonly Excel.Application excelApp;
         private System.Windows.Forms.ComboBox columnComboBox;
         private System.Windows.Forms.ComboBox delimiterComboBox;
         private System.Windows.Forms.TextBox customDelimiterTextBox;
@@ -126,7 +126,9 @@ namespace SmartExcel
                 var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
                 var usedRange = activeSheet.UsedRange;
                 
-                if (usedRange.Columns.Count == 0)
+                // Check if the worksheet has meaningful data (not just a single empty cell)
+                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1 && 
+                    (usedRange.Value2 == null || string.IsNullOrWhiteSpace(usedRange.Value2.ToString())))
                 {
                     MessageBox.Show("No data found in the active sheet.", "Information", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -197,9 +199,15 @@ namespace SmartExcel
                 case "Tab":
                     return "\t";
                 case "Line break":
-                    return "\n";
+                    return Environment.NewLine;
                 case "Custom":
-                    return customDelimiterTextBox.Text;
+                    var customDelimiter = customDelimiterTextBox.Text;
+                    if (string.IsNullOrWhiteSpace(customDelimiter))
+                    {
+                        // Return null to indicate missing custom delimiter
+                        return null;
+                    }
+                    return customDelimiter;
                 default:
                     return ",";
             }
@@ -229,31 +237,28 @@ namespace SmartExcel
                         string cellText = cellValue.ToString();
                         if (cellText.Contains(delimiter))
                         {
-                            string[] parts = cellText.Split(new[] { delimiter }, StringSplitOptions.None);
+                            string[] parts = cellText.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
                             
                             if (parts.Length > 1)
                             {
                                 // Update the first row with the first part
                                 Excel.Range cellToUpdate = (Excel.Range)activeSheet.Cells[i, columnIndex];
                                 cellToUpdate.Value2 = parts[0];
+                                System.Runtime.InteropServices.Marshal.ReleaseComObject(cellToUpdate);
 
                                 // Insert new rows for remaining parts
                                 for (int j = 1; j < parts.Length; j++)
                                 {
                                     Excel.Range rowToInsert = (Excel.Range)activeSheet.Rows[i + j];
                                     rowToInsert.Insert(Excel.XlInsertShiftDirection.xlShiftDown, Excel.XlInsertFormatOrigin.xlFormatFromLeftOrAbove);
+                                    System.Runtime.InteropServices.Marshal.ReleaseComObject(rowToInsert);
                                     
                                     // Copy entire row data
                                     for (int k = 1; k <= colCount; k++)
                                     {
-                                        if (k == columnIndex)
-                                        {
-                                            ((Excel.Range)activeSheet.Cells[i + j, k]).Value2 = parts[j];
-                                        }
-                                        else
-                                        {
-                                            ((Excel.Range)activeSheet.Cells[i + j, k]).Value2 = data[i, k];
-                                        }
+                                        Excel.Range targetCell = (Excel.Range)activeSheet.Cells[i + j, k];
+                                        targetCell.Value2 = (k == columnIndex) ? (object)parts[j] : data[i, k];
+                                        System.Runtime.InteropServices.Marshal.ReleaseComObject(targetCell);
                                     }
                                 }
                             }

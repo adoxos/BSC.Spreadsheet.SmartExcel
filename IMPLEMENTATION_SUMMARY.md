@@ -63,7 +63,7 @@ This repository contains a complete Excel-DNA add-in implementation that adds a 
 ## Technical Highlights
 
 ### Excel-DNA Integration
-- Utilizes Excel-DNA 1.6.0 for seamless Excel integration
+- Utilizes Excel-DNA 1.8.0 for seamless Excel integration
 - COM-visible ribbon controller
 - Custom ribbon XML with Office Fluent UI
 - Both 32-bit and 64-bit build outputs

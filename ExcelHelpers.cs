@@ -15,16 +15,16 @@ namespace SmartExcel
         public static string GetColumnLetter(int columnNumber)
         {
             int dividend = columnNumber;
-            string columnName = String.Empty;
+            var columnName = new System.Text.StringBuilder();
 
             while (dividend > 0)
             {
                 int modulo = (dividend - 1) % 26;
-                columnName = Convert.ToChar(65 + modulo) + columnName;
+                columnName.Insert(0, Convert.ToChar(65 + modulo));
                 dividend = (dividend - modulo) / 26;
             }
 
-            return columnName;
+            return columnName.ToString();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace SmartExcel
 {
     public partial class ChangeDelimiterForm : Form
     {
-        private Excel.Application excelApp;
+        private readonly Excel.Application excelApp;
         private System.Windows.Forms.ComboBox columnComboBox;
         private System.Windows.Forms.ComboBox fromDelimiterComboBox;
         private System.Windows.Forms.ComboBox toDelimiterComboBox;
@@ -183,7 +183,9 @@ namespace SmartExcel
                 var activeSheet = (Excel.Worksheet)excelApp.ActiveSheet;
                 var usedRange = activeSheet.UsedRange;
                 
-                if (usedRange.Columns.Count == 0)
+                // Check if the worksheet has meaningful data (not just a single empty cell)
+                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1 && 
+                    (usedRange.Value2 == null || string.IsNullOrWhiteSpace(usedRange.Value2.ToString())))
                 {
                     MessageBox.Show("No data found in the active sheet.", "Information", 
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -232,6 +234,13 @@ namespace SmartExcel
                 return;
             }
 
+            if (fromDelimiter == toDelimiter)
+            {
+                MessageBox.Show("Source and target delimiters are the same. No changes will be made.", "Validation Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 ChangeDelimiter(columnComboBox.SelectedIndex + 1, fromDelimiter, toDelimiter);
@@ -260,9 +269,15 @@ namespace SmartExcel
                 case "Tab":
                     return "\t";
                 case "Line break":
-                    return "\n";
+                    return Environment.NewLine;
                 case "Custom":
-                    return textBox.Text;
+                    var customDelimiter = textBox.Text;
+                    if (string.IsNullOrWhiteSpace(customDelimiter))
+                    {
+                        // Return null to indicate missing custom delimiter
+                        return null;
+                    }
+                    return customDelimiter;
                 default:
                     return ",";
             }
@@ -292,6 +307,7 @@ namespace SmartExcel
                             string newValue = cellText.Replace(fromDelimiter, toDelimiter);
                             Excel.Range cell = (Excel.Range)activeSheet.Cells[i, columnIndex];
                             cell.Value2 = newValue;
+                            System.Runtime.InteropServices.Marshal.ReleaseComObject(cell);
                         }
                     }
                 }
