@@ -7,8 +7,15 @@ echo SmartExcel Add-in Installer (x64)
 echo ====================================
 echo.
 
-REM Define the target directory
-set "TARGET_DIR=%LOCALAPPDATA%\Statkraft AS\Add-ins"
+REM Prompt for organization name
+set /p "ORG_NAME=Enter your organization name (or press Enter for default 'Add-ins'): "
+
+REM If no organization name provided, use default
+if "%ORG_NAME%"=="" (
+    set "TARGET_DIR=%LOCALAPPDATA%\Add-ins"
+) else (
+    set "TARGET_DIR=%LOCALAPPDATA%\%ORG_NAME%\Add-ins"
+)
 
 REM Define the source directory (same directory as this script)
 set "SOURCE_DIR=%~dp0"
@@ -20,6 +27,10 @@ if not exist "%SOURCE_DIR%SmartExcel64.xll" (
     pause
     exit /b 1
 )
+
+echo.
+echo Installation directory: %TARGET_DIR%
+echo.
 
 REM Create target directory if it doesn't exist
 echo Creating target directory...

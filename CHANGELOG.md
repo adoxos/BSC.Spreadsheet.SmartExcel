@@ -28,7 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Installation scripts**:
   - `install-x64.bat` - Automated installation script for 64-bit Excel
   - `uninstall-x64.bat` - Uninstallation script
-  - Scripts copy files to `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
+  - Scripts prompt user for organization name (no hardcoded values)
+  - Scripts copy files to `%LOCALAPPDATA%\[OrganizationName]\Add-ins\`
+- **END_USER_INSTALLATION_GUIDE.md** - Comprehensive guide for end users with step-by-step installation and usage instructions
 
 ### Changed
 - Updated to .NET 8 (net8.0-windows) from .NET Framework 4.7.2

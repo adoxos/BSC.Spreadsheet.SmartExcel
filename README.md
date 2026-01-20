@@ -23,7 +23,13 @@ Replace delimiters in a column with a different delimiter.
 
 ### Installation
 
-#### Option 1: Automated Installation (Recommended)
+#### For End Users
+
+**See the [END_USER_INSTALLATION_GUIDE.md](END_USER_INSTALLATION_GUIDE.md) for simple, step-by-step instructions.**
+
+#### For Developers/IT Administrators
+
+**Option 1: Automated Installation (Recommended)**
 
 1. Build and publish the project:
    ```bash
@@ -32,10 +38,11 @@ Replace delimiters in a column with a different delimiter.
 
 2. Run the installation script from the publish folder:
    - Double-click `install-x64.bat` (for 64-bit Excel)
-   - The script will automatically copy files to `%LOCALAPPDATA%\Statkraft AS\Add-ins\`
+   - Enter your organization name when prompted (or press Enter for default)
+   - The script will automatically copy files to `%LOCALAPPDATA%\[OrganizationName]\Add-ins\`
    - Follow the on-screen instructions to enable the add-in in Excel
 
-#### Option 2: Manual Installation
+**Option 2: Manual Installation**
 
 1. Build and publish the project (see above)
 2. Manually copy files from the `publish` folder to your preferred location
@@ -47,9 +54,9 @@ Replace delimiters in a column with a different delimiter.
 #### For Distribution
 
 After running `dotnet publish`:
-1. Zip the entire `publish` folder
+1. Zip the entire `publish` folder (includes installation scripts and END_USER_INSTALLATION_GUIDE.md)
 2. Share the zip file with users
-3. Users extract the zip and run `install-x64.bat`
+3. Users extract the zip and follow the END_USER_INSTALLATION_GUIDE.md
 
 #### Uninstallation
 

@@ -7,9 +7,17 @@ echo SmartExcel Add-in Uninstaller (x64)
 echo ====================================
 echo.
 
-REM Define the target directory
-set "TARGET_DIR=%LOCALAPPDATA%\Statkraft AS\Add-ins"
+REM Prompt for organization name
+set /p "ORG_NAME=Enter your organization name (same as used during installation, or press Enter for default 'Add-ins'): "
 
+REM If no organization name provided, use default
+if "%ORG_NAME%"=="" (
+    set "TARGET_DIR=%LOCALAPPDATA%\Add-ins"
+) else (
+    set "TARGET_DIR=%LOCALAPPDATA%\%ORG_NAME%\Add-ins"
+)
+
+echo.
 echo This will remove SmartExcel add-in files from:
 echo %TARGET_DIR%
 echo.
