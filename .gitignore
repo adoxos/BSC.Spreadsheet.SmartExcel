@@ -1,6 +1,7 @@
 ## Visual Studio artifacts
 bin/
 obj/
+publish/
 *.user
 *.suo
 *.userosscache
