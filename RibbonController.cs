@@ -11,31 +11,6 @@ namespace SmartExcel
     {
         private IRibbonUI ribbon;
 
-        public override string GetCustomUI(string RibbonID)
-        {
-            return @"
-                <customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui' loadImage='LoadImage'>
-                    <ribbon>
-                        <tabs>
-                            <tab id='SmartExcelTab' label='SmartExcel'>
-                                <group id='SmartExcelGroup' label='Data Tools'>
-                                    <button id='SplitRowsButton' 
-                                            label='Split Rows' 
-                                            size='large' 
-                                            onAction='OnSplitRowsButton'
-                                            imageMso='TableSplitCells' />
-                                    <button id='ChangeDelimiterButton' 
-                                            label='Change Delimiter' 
-                                            size='large' 
-                                            onAction='OnChangeDelimiterButton'
-                                            imageMso='ConvertTableToRange' />
-                                </group>
-                            </tab>
-                        </tabs>
-                    </ribbon>
-                </customUI>";
-        }
-
         public void OnLoad(IRibbonUI ribbonUI)
         {
             this.ribbon = ribbonUI;

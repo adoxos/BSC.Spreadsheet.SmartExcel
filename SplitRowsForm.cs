@@ -108,12 +108,14 @@ namespace SmartExcel
             if (customDelimiterTextBox.Visible)
             {
                 this.Size = new System.Drawing.Size(400, 250);
-                executeButton.Location = new System.Drawing.Point(180, 140);
-                cancelButton.Location = new System.Drawing.Point(280, 140);
+                executeButton.Location = new System.Drawing.Point(180, 170);
+                cancelButton.Location = new System.Drawing.Point(280, 170);
             }
             else
             {
                 this.Size = new System.Drawing.Size(400, 220);
+                executeButton.Location = new System.Drawing.Point(180, 140);
+                cancelButton.Location = new System.Drawing.Point(280, 140);
             }
         }
 
