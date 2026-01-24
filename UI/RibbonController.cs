@@ -1,6 +1,6 @@
 using System;
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using ExcelDna.Integration;
 using ExcelDna.Integration.CustomUI;
 
@@ -26,7 +26,7 @@ namespace SmartExcel
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "Split Rows Error", 
+                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "Split Rows Error",
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
@@ -41,7 +41,7 @@ namespace SmartExcel
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "Change Delimiter Error", 
+                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "Change Delimiter Error",
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }
@@ -56,7 +56,7 @@ namespace SmartExcel
             }
             catch (Exception ex)
             {
-                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "LTRIM / RTRIM Error", 
+                System.Windows.Forms.MessageBox.Show($"Error: {ex.Message}", "LTRIM / RTRIM Error",
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
             }
         }

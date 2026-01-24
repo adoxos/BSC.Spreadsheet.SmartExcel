@@ -34,9 +34,10 @@ namespace SmartExcel
         {
             Text = "LTRIM / RTRIM";
             Size = new System.Drawing.Size(380, 230);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            MinimumSize = new System.Drawing.Size(380, 230);
+            FormBorderStyle = FormBorderStyle.Sizable;
+            MaximizeBox = true;
+            MinimizeBox = true;
             StartPosition = FormStartPosition.CenterScreen;
 
             columnLabel = new Label
@@ -50,6 +51,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 18),
                 Size = new System.Drawing.Size(210, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
 
@@ -86,7 +88,8 @@ namespace SmartExcel
             {
                 Text = "Execute",
                 Location = new System.Drawing.Point(170, 155),
-                Size = new System.Drawing.Size(80, 30)
+                Size = new System.Drawing.Size(80, 30),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
             };
             executeButton.Click += ExecuteButton_Click;
 
@@ -94,7 +97,8 @@ namespace SmartExcel
             {
                 Text = "Cancel",
                 Location = new System.Drawing.Point(260, 155),
-                Size = new System.Drawing.Size(80, 30)
+                Size = new System.Drawing.Size(80, 30),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
             };
             cancelButton.Click += (s, e) => Close();
 
@@ -110,38 +114,7 @@ namespace SmartExcel
 
         private void LoadColumns()
         {
-            try
-            {
-                dynamic activeSheet = excelApp.ActiveSheet;
-                var usedRange = activeSheet.UsedRange;
-
-                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1)
-                {
-                    var value = usedRange.Value2;
-                    if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
-                    {
-                        MessageBox.Show("No data found in the active sheet.", "Information",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                }
-
-                for (int i = 1; i <= usedRange.Columns.Count; i++)
-                {
-                    string columnLetter = ExcelHelpers.GetColumnLetter(i);
-                    columnComboBox.Items.Add($"Column {columnLetter}");
-                }
-
-                if (columnComboBox.Items.Count > 0)
-                {
-                    columnComboBox.SelectedIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading columns: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ExcelHelpers.TryPopulateColumnComboBox(excelApp, columnComboBox);
         }
 
         private void ExecuteButton_Click(object sender, EventArgs e)
@@ -192,6 +165,14 @@ namespace SmartExcel
         {
             dynamic activeSheet = excelApp.ActiveSheet;
             var usedRange = activeSheet.UsedRange;
+
+            if (ExcelHelpers.IsUsedRangeEmpty(usedRange))
+            {
+                MessageBox.Show("No data found in the active sheet.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return 0;
+            }
+
             int updatedCells = 0;
 
             excelApp.ScreenUpdating = false;

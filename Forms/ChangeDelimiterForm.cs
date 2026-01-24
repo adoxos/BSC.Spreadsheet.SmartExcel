@@ -28,9 +28,10 @@ namespace SmartExcel
         {
             this.Text = "Change Delimiter";
             this.Size = new System.Drawing.Size(400, 280);
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(400, 280);
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+            this.MinimizeBox = true;
             this.StartPosition = FormStartPosition.CenterScreen;
 
             // Column selection
@@ -45,6 +46,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 20),
                 Size = new System.Drawing.Size(230, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
 
@@ -60,6 +62,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 60),
                 Size = new System.Drawing.Size(230, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
             fromDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Line break", "Custom" });
@@ -71,6 +74,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 90),
                 Size = new System.Drawing.Size(230, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 Visible = false
             };
 
@@ -86,6 +90,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 130),
                 Size = new System.Drawing.Size(230, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 DropDownStyle = ComboBoxStyle.DropDownList
             };
             toDelimiterComboBox.Items.AddRange(new object[] { "Comma (,)", "Semicolon (;)", "Pipe (|)", "Tab", "Line break", "Custom" });
@@ -97,6 +102,7 @@ namespace SmartExcel
             {
                 Location = new System.Drawing.Point(130, 160),
                 Size = new System.Drawing.Size(230, 25),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right,
                 Visible = false
             };
 
@@ -105,7 +111,8 @@ namespace SmartExcel
             {
                 Text = "Execute",
                 Location = new System.Drawing.Point(180, 200),
-                Size = new System.Drawing.Size(80, 30)
+                Size = new System.Drawing.Size(80, 30),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
             };
             executeButton.Click += ExecuteButton_Click;
 
@@ -114,7 +121,8 @@ namespace SmartExcel
             {
                 Text = "Cancel",
                 Location = new System.Drawing.Point(280, 200),
-                Size = new System.Drawing.Size(80, 30)
+                Size = new System.Drawing.Size(80, 30),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
             };
             cancelButton.Click += (s, e) => this.Close();
 
@@ -177,44 +185,14 @@ namespace SmartExcel
 
         private void LoadColumns()
         {
-            try
-            {
-                dynamic activeSheet = excelApp.ActiveSheet;
-                var usedRange = activeSheet.UsedRange;
-                
-                // Check if the worksheet has meaningful data (not just a single empty cell)
-                if (usedRange.Rows.Count == 1 && usedRange.Columns.Count == 1)
-                {
-                    var value = usedRange.Value2;
-                    if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
-                    {
-                        MessageBox.Show("No data found in the active sheet.", "Information", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
-                }
-
-                for (int i = 1; i <= usedRange.Columns.Count; i++)
-                {
-                    string columnLetter = ExcelHelpers.GetColumnLetter(i);
-                    columnComboBox.Items.Add($"Column {columnLetter}");
-                }
-
-                if (columnComboBox.Items.Count > 0)
-                    columnComboBox.SelectedIndex = 0;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading columns: {ex.Message}", "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            ExcelHelpers.TryPopulateColumnComboBox(excelApp, columnComboBox);
         }
 
         private void ExecuteButton_Click(object sender, EventArgs e)
         {
             if (columnComboBox.SelectedIndex < 0)
             {
-                MessageBox.Show("Please select a column.", "Validation Error", 
+                MessageBox.Show("Please select a column.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -224,21 +202,21 @@ namespace SmartExcel
 
             if (string.IsNullOrEmpty(fromDelimiter))
             {
-                MessageBox.Show("Please specify a source delimiter.", "Validation Error", 
+                MessageBox.Show("Please specify a source delimiter.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (string.IsNullOrEmpty(toDelimiter))
             {
-                MessageBox.Show("Please specify a target delimiter.", "Validation Error", 
+                MessageBox.Show("Please specify a target delimiter.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (fromDelimiter == toDelimiter)
             {
-                MessageBox.Show("Source and target delimiters are the same. No changes will be made.", "Validation Error", 
+                MessageBox.Show("Source and target delimiters are the same. No changes will be made.", "Validation Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -246,13 +224,13 @@ namespace SmartExcel
             try
             {
                 ChangeDelimiter(columnComboBox.SelectedIndex + 1, fromDelimiter, toDelimiter);
-                MessageBox.Show("Delimiter changed successfully!", "Success", 
+                MessageBox.Show("Delimiter changed successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error changing delimiter: {ex.Message}", "Error", 
+                MessageBox.Show($"Error changing delimiter: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -276,7 +254,6 @@ namespace SmartExcel
                     var customDelimiter = textBox.Text;
                     if (string.IsNullOrWhiteSpace(customDelimiter))
                     {
-                        // Return null to indicate missing custom delimiter
                         return null;
                     }
                     return customDelimiter;
@@ -295,23 +272,26 @@ namespace SmartExcel
 
             try
             {
-                object[,] data = (object[,])usedRange.Value2;
-                int rowCount = usedRange.Rows.Count;
+                ExcelRangeData rangeData = ExcelHelpers.NormalizeRangeValues(usedRange);
 
-                for (int i = 1; i <= rowCount; i++)
+                for (int i = 1; i <= rangeData.RowCount; i++)
                 {
-                    object cellValue = data[i, columnIndex];
-                    if (cellValue != null)
+                    object cellValue = rangeData.Values[i, columnIndex];
+                    if (cellValue == null)
                     {
-                        string cellText = cellValue.ToString();
-                        if (cellText.Contains(fromDelimiter))
-                        {
-                            string newValue = cellText.Replace(fromDelimiter, toDelimiter);
-                            dynamic cell = activeSheet.Cells[i, columnIndex];
-                            cell.Value2 = newValue;
-                            System.Runtime.InteropServices.Marshal.ReleaseComObject(cell);
-                        }
+                        continue;
                     }
+
+                    string cellText = cellValue.ToString();
+                    if (!cellText.Contains(fromDelimiter))
+                    {
+                        continue;
+                    }
+
+                    string newValue = cellText.Replace(fromDelimiter, toDelimiter);
+                    dynamic cell = activeSheet.Cells[i, columnIndex];
+                    cell.Value2 = newValue;
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(cell);
                 }
             }
             finally

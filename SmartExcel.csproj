@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>SmartExcel</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
     <!-- Disable packing for cross-platform builds. On Windows, set to 'true' to create packed XLL -->
     <RunExcelDnaPack>false</RunExcelDnaPack>
   </PropertyGroup>
@@ -40,12 +41,22 @@
   <!-- Copy XLL and DNA files to publish folder after publish -->
   <Target Name="CopyXllFilesToPublish" AfterTargets="Publish">
     <ItemGroup>
-      <XllFilesToCopy Include="$(OutputPath)*.xll" />
+      <XllFilesToCopy Include="$(OutputPath)*64.xll" />
       <DnaFilesToCopy Include="$(OutputPath)*64.dna" />
     </ItemGroup>
     <Copy SourceFiles="@(XllFilesToCopy)" DestinationFolder="$(PublishDir)" />
     <Copy SourceFiles="@(DnaFilesToCopy)" DestinationFolder="$(PublishDir)" />
-    <Message Text="Copied XLL and DNA files to publish folder" Importance="high" />
+    <Message Text="Copied x64 XLL and DNA files to publish folder" Importance="high" />
+  </Target>
+
+  <!-- Drop 32-bit artifacts so only x64 outputs remain -->
+  <Target Name="Remove32BitOutputs" AfterTargets="Build;Publish">
+    <ItemGroup>
+      <X86Outputs Include="$(OutputPath)SmartExcel.xll;$(OutputPath)SmartExcel.dna" />
+      <X86PublishOutputs Include="$(PublishDir)SmartExcel.xll;$(PublishDir)SmartExcel.dna" />
+    </ItemGroup>
+    <Delete Files="@(X86Outputs)" ContinueOnError="true" />
+    <Delete Files="@(X86PublishOutputs)" ContinueOnError="true" />
   </Target>
 
 </Project>
